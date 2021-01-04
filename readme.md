@@ -37,8 +37,8 @@ To enable/use email notification functionality, the following variables should b
     # job_application_portal/job_application_portal/settings.py
 
     DEFAULT_FROM_EMAIL = 'do_not_reply <do_not_reply@jobportal.com>'
-    EMAIL_HOST_USER=email@jobportal.com
-    EMAIL_HOST_PASSWORD=emailpassword
+    EMAIL_HOST_USER='email@jobportal.com'
+    EMAIL_HOST_PASSWORD='emailpassword'
 
 
 ### Firing up the development server
@@ -47,4 +47,4 @@ Once the virtual environment is activated  and the necessary project dependencie
    
     python manage.py runserver
 
-This will run the django developement server on default port `8000`.
+This will run the django developement server on default port `8000`. `http:\\localhost:80000`
