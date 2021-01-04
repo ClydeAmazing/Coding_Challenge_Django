@@ -1,0 +1,61 @@
+.send-button{
+  background: #54C7C3;
+  width:100%;
+  font-weight: 600;
+  color:#fff;
+  padding: 8px 25px;
+  }
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+  .my-input{
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  cursor: text;
+  padding: 8px 10px;
+  transition: border .1s linear;
+  border: 1px solid #ced4dab3;
+  }
+  .header-title{
+  margin: 5rem 0;
+  }
+  h1{
+  font-size: 31px;
+  line-height: 40px;
+  font-weight: 600;
+  color:#4c5357;
+  }
+  h2{
+  color: #5e8396;
+  font-size: 21px;
+  line-height: 32px;
+  font-weight: 400;
+  }
+  .field-icon {
+    float: right;
+    margin-right: 17px;
+    margin-top: -28px;
+    position: relative;
+    z-index: 2;
+    color: #555; }
+
+  .referral {
+    color: #555;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 5px; }
+  
+  .referral_link {
+    font-weight: 700;
+    color: #222; }
+
+  @media screen and (max-width:480px){
+  h1{
+  font-size: 26px;
+  }
+  h2{
+  font-size: 20px;
+  }
+  }

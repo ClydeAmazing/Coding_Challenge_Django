@@ -1,0 +1,16 @@
+{% extends 'account/base.html' %}
+
+{% block main_content %}
+
+<div class="row mt-5">
+    <div class="col-md-5 mx-auto text-center">
+        <h1 class="m-3">Profile submitted!</h1>
+        <p class="referral mt-1">Great! Your profile will be reviewed by our team. In the event of the acceptance of your application, we will notify you accordingly.</p>
+        <p class="referral mt-1">Thank you.</p>
+        <p class="referral">
+            <a href="{% url 'login' %}" class="referral_link">Review profile</a>
+        </p>
+    </div>
+</div>
+
+{% endblock main_content %}

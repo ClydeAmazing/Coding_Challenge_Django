@@ -1,0 +1,311 @@
+{% extends 'account/base.html' %}
+{% load static %}
+
+{% block title %}
+    Personal Details
+{% endblock title %}
+
+{% block main_content %}
+<div class="row mt-5">
+    <div class="col-md-6 mx-auto">
+        <div class="row">
+            <div class="col">
+            {% if messages %}
+                    {% for message in messages %}
+                    <div class="{{ message.tags }}">
+                        <a class="close" data-dismiss="alert">×</a>
+                        {{ message|safe }}
+                    </div>
+                    {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4>Personal Details</h4>
+            </div>
+            <div class="col-2 text-center">
+                <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+            </div>
+        </div>
+        <hr>
+        <div class="form">
+            <form action="{% url 'details' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.user }}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-8">
+                            <label>{{ form.marital_status.label }}</label>
+                            {{ form.marital_status }}
+                            {% for error in form.marital_status.errors %}
+                                <p class="small text-left text-danger mb-0">
+                                    * {{ error }}
+                                </p>
+                            {% endfor %}
+                        </div>
+                        <div class="col pl-0">
+                        <label>{{ form.dependents.label }}</label>
+                        {{ form.dependents }}
+                        {% for error in form.dependents.errors %}
+                            <p class="small text-left text-danger mb-0">
+                                * {{ error }}
+                            </p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-8">
+                            <label>{{ form.date_of_birth.label }}</label>
+                            {{ form.date_of_birth }}
+                            {% for error in form.date_of_birth.errors %}
+                                <p class="small text-left text-danger mb-0">
+                                    * {{ error }}
+                                </p>
+                            {% endfor %}
+                        </div>
+                        <div class="col pl-0">
+                        <label>{{ form.years_of_experience.label }}</label>
+                        {{ form.years_of_experience }}
+                        {% for error in form.years_of_experience.errors %}
+                            <p class="small text-left text-danger mb-0">
+                                * {{ error }}
+                            </p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{ form.nationality.label }}</label>
+                    {{ form.nationality }}
+                    <datalist id='data_nationalities'></datalist>
+                    {% for error in form.nationality.errors %}
+                        <p class="small text-left text-danger mb-0">
+                            * {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-8">
+                            <label>{{ form.country.label }}</label>
+                            {{ form.country }}
+                            <datalist id="data_countries"></datalist>
+                            {% for error in form.country.errors %}
+                                <p class="small text-left text-danger mb-0">
+                                    * {{ error }}
+                                </p>
+                            {% endfor %}
+                        </div>
+                        <div class="col pl-0">
+                        <label>{{ form.city.label }}</label>
+                        {{ form.city }}
+                        <datalist id="data_cities"></datalist>
+                        {% for error in form.city.errors %}
+                            <p class="small text-left text-danger mb-0">
+                                * {{ error }}
+                            </p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{ form.mobile_number.label }}</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id = "id_dial_code" class="input-group-text"></span>
+                        </div>
+                        {{ form.mobile_number }}
+                    </div>
+                    {% for error in mobile_number.city.errors %}
+                        <p class="small text-left text-danger mb-0">
+                            * {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+                {% for error in form.non_field_errors %}
+                    <p class="small text-left text-danger mb-0">
+                        * {{ error }}
+                    </p>
+                {% endfor %}
+
+                <!-- Formsets section -->
+
+                <!-- Education formset -->
+                <h5>
+                    Education
+                    <small class="text-muted">(minimum 1 required)</small>
+                </h5>
+                {{ education_formset.management_form }}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Degree</th>
+                            <th scope="col">University</th>
+                            <th scope="col">GPA</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    {% for form in education_formset.forms %}
+                        <tr class="education_formset_row-{{ education_formset.prefix }}">
+                            {% for field in form.visible_fields %}
+                            <td>
+                                {% if forloop.first %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="small text-left text-danger mb-0">
+                                        * {{ error }}
+                                    </p>
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+                {{ education_formset.non_field_errors }}
+
+                <!-- Attachment formset -->
+                <h5>
+                    Attachment
+                    <small class="text-muted">(minimum 1 required)</small>
+                </h5>
+                {{ attachments_formset.management_form }}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">File</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    {% for form in attachments_formset.forms %}
+                        <tr class="attachments_formset_row-{{ attachments_formset.prefix }}">
+                            {% for field in form.visible_fields %}
+                            <td>
+                                {% if forloop.first %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="small text-left text-danger mb-0">
+                                        * {{ error }}
+                                    </p>
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                {{ attachments_formset.non_field_errors }}
+
+                <p class="small mt-3">I hereby declare that the information provided is true and correct.
+                </p>
+                <div class="text-center mb-5">
+                    <button type="submit" class=" btn btn-block send-button tx-tfm">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}
+
+{% block custom_scripts %}
+<script src="{% static 'build/js/jquery.formset.js' %}"></script>
+<script>
+    // Formset setup
+    $('.education_formset_row-{{ education_formset.prefix }}').formset({
+        addText: 'Add Degree',
+        deleteText: 'Remove',
+        prefix: '{{ education_formset.prefix }}',
+        formCssClass: 'formset1',
+    });
+
+    $('.attachments_formset_row-{{ attachments_formset.prefix }}').formset({
+        addText: 'Add File',
+        deleteText: 'Remove',
+        prefix: '{{ attachments_formset.prefix }}',
+        formCssClass: 'formset2',
+    });
+
+    // API Endpoints
+    const nationalities_api_url = 'https://restcountries.eu/rest/v2/all';
+    const countries_api_url = 'https://countriesnow.space/api/v0.1/countries';
+    const country_codes_api_url = 'https://countriesnow.space/api/v0.1/countries/codes';
+
+    // Datalist containers
+    const nationalitiesDatalist = $("#data_nationalities");
+    const countriesDatalist = $("#data_countries");
+    const citiesDatalist = $('#data_cities');
+    const dial_code = $('#id_dial_code');
+
+    // Variable declarations
+    var countries_cities;
+    var country_codes;
+
+    $.getJSON(nationalities_api_url, function(data) {
+        for (i=0; i<data.length; i++){
+            nationalitiesDatalist.append("<option>" + data[i].demonym + "</option>");
+        }
+    });
+    
+    $.getJSON(countries_api_url, function(data){
+        if (data.error){
+            console.log('Error fetching countries and cities info');
+        }else{
+            countries_cities = data.data;
+            for (i=0; i<countries_cities.length; i++){
+                countriesDatalist.append("<option>" + countries_cities[i].country + "</option>");
+            }
+        }
+    });
+
+    $.getJSON(country_codes_api_url, function(data){
+        if (data.error){
+            console.log('Error fetching country codes.');
+        }else{
+            country_codes = data.data;
+            code = country_codes.find(el => el.name == $('#id_country').val());
+            if (code){
+                dial_code.html(code.dial_code)
+            }
+            
+        }
+    });
+
+    // Form default setup
+    $('#id_dependents').prop('disabled', $('#id_marital_status').val() === 'Married' ? false : true);
+
+    // Change 'dependents' field disabled property based on 'marital status' field value
+    $('#id_marital_status').change(function(){
+        $('#id_dependents').prop('disabled', $(this).val() === 'Married' ? false : true);
+    });
+
+    const fld_country = $("#id_country");
+    fld_country.blur(function(){
+        if ($(this).val()){
+            cities = countries_cities.find(el => el.country == $(this).val()).cities;
+            code = country_codes.find(el => el.name == $(this).val()).dial_code;
+            dial_code.html(code)
+            citiesDatalist.empty();
+            for (city in cities){
+                citiesDatalist.append("<option>" + cities[city] + "</option>");
+            }
+        }else{
+            console.log('walay value');
+        }
+    });
+
+    $("#btn_submit").click(function(){
+        $('#confirmModal').modal('show')
+    })
+</script>
+{% endblock custom_scripts %}

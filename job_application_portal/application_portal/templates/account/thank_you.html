@@ -1,0 +1,15 @@
+{% extends 'account/base.html' %}
+
+{% block main_content %}
+
+<div class="row mt-5">
+    <div class="col-md-5 mx-auto text-center">
+        <h1 class="m-3">Thank You!</h1>
+        <p class="referral">{{ message }}</p>
+        <p class="referral">
+            Already have an account? <a href="{% url 'login' %}" class="referral_link">Login here</a>
+        </p>
+    </div>
+</div>
+
+{% endblock main_content %}
